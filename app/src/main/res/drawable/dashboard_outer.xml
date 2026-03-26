@@ -1,0 +1,27 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- OUTER GLOW BORDER -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#030F1F"/>
+            <corners android:radius="26dp"/>
+            <stroke
+                android:width="2dp"
+                android:color="#00E5FF"/>
+        </shape>
+    </item>
+
+    <!-- INNER DARK SURFACE -->
+    <item
+        android:left="4dp"
+        android:right="4dp"
+        android:top="4dp"
+        android:bottom="4dp">
+
+        <shape android:shape="rectangle">
+            <solid android:color="#081A2F"/>
+            <corners android:radius="22dp"/>
+        </shape>
+    </item>
+
+</layer-list>

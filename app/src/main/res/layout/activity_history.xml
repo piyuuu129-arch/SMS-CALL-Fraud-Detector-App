@@ -30,7 +30,7 @@
             android:text="CLEAR CALL HISTORY"
             android:textStyle="bold"
             android:textColor="#000000"
-            android:backgroundTint="#C084FC"
+            android:backgroundTint="#5CF2F2"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:layout_marginBottom="20dp"/>

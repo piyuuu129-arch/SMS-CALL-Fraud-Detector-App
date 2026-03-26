@@ -18,7 +18,7 @@
         android:id="@+id/clearSmsBtn"
         android:text="CLEAR SMS HISTORY"
         android:layout_marginTop="14dp"
-        android:backgroundTint="#BB86FC"
+        android:backgroundTint="#5CF2F2"
         android:textColor="#000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

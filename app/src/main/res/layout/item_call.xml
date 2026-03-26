@@ -11,10 +11,26 @@
     android:backgroundTint="#242424">
 
     <LinearLayout
+        android:id="@+id/cardGlow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="18dp">
+
+        <!-- STATUS BADGE -->
+        <TextView
+            android:id="@+id/statusBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SAFE SMS"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/badge_safe"/>
 
         <!-- DATE -->
         <TextView
@@ -24,7 +40,7 @@
             android:textColor="#9A9A9A"
             android:textSize="12sp"/>
 
-        <!-- CALL LINE -->
+        <!-- MESSAGE -->
         <TextView
             android:id="@+id/callText"
             android:layout_width="wrap_content"
@@ -33,13 +49,16 @@
             android:textSize="15sp"
             android:layout_marginTop="6dp"/>
 
-        <!-- RESULT -->
-        <TextView
-            android:id="@+id/resultText"
+        <Button
+            android:id="@+id/blockButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="13sp"
-            android:layout_marginTop="6dp"/>
+            android:text="Block Number"
+            android:textSize="12sp"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            android:backgroundTint="#FF4444"
+            android:textColor="#FFFFFF"/>
 
     </LinearLayout>
 

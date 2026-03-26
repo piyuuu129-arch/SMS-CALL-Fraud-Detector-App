@@ -4,14 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F2F4F7">
+    android:background="@drawable/background_main">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- ================= HEADER ================= -->
+        <!-- HEADER -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="200dp"
@@ -19,14 +19,14 @@
             android:gravity="center"
             android:paddingTop="40dp"
             android:paddingBottom="20dp"
-            android:background="@drawable/header_bg">
+            android:background="@drawable/header_gradient">
 
             <ImageView
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:src="@mipmap/ic_launcher_round"
-                android:layout_gravity="center"
-                android:layout_marginBottom="12dp"/>
+                android:layout_marginBottom="12dp"
+                android:contentDescription="App icon"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -53,162 +53,271 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <!-- STATUS CARD -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/statusCard"
+            <!-- 🔥 FULL DASHBOARD WITH PROPER GLOW -->
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="6dp"
-                android:backgroundTint="#DFF2E1"
-                android:layout_marginBottom="16dp">
+                android:background="@android:color/transparent"
+                android:layout_marginBottom="20dp">
 
+                <!-- 🔥 GLOW LAYER (BEHIND) -->
+                <com.example.frauddetectorapp.GlowView
+                    android:id="@+id/glowView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <!-- 🔥 DASHBOARD CONTENT -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="20dp"
+                    android:background="@drawable/dashboard_outer"
+                    android:orientation="vertical"
+                    android:padding="18dp"
+                    android:layout_margin="8dp">
+
+                    <!-- TITLE -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginEnd="8dp"
+                            android:src="@android:drawable/ic_menu_view"
+                            app:tint="#B0CFFF" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Dashboard"
+                            android:textColor="#E3F2FD"
+                            android:textSize="25sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- BUTTON ROW -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="16dp">
+
+                        <!-- CALL BUTTON -->
+                        <LinearLayout
+                            android:id="@+id/viewCallBtn"
+                            android:layout_width="0dp"
+                            android:layout_height="70dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/glow_button"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:layout_marginEnd="8dp">
+
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:src="@android:drawable/ic_menu_call"
+                                app:tint="#00E5FF"
+                                android:layout_marginEnd="8dp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="View Call"
+                                android:textColor="#FFFFFF"
+                                android:textSize="17sp"
+                                android:textStyle="bold"/>
+
+                        </LinearLayout>
+
+                        <!-- SMS BUTTON -->
+                        <LinearLayout
+                            android:id="@+id/viewSmsBtn"
+                            android:layout_width="0dp"
+                            android:layout_height="70dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/glow_button"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:layout_marginStart="8dp">
+
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:src="@android:drawable/ic_dialog_email"
+                                app:tint="#00E5FF"
+                                android:layout_marginEnd="8dp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="View SMS"
+                                android:textColor="#FFFFFF"
+                                android:textSize="17sp"
+                                android:textStyle="bold"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <!-- MODE CARD -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/glass_card"
+                android:orientation="horizontal"
+                android:padding="20dp"
+                android:layout_marginBottom="18dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Protection Status"
-                        android:textStyle="bold"
+                        android:text="Detection Mode"
+                        android:textColor="#FFFFFF"
                         android:textSize="16sp"
-                        android:textColor="#2E7D32"/>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="8dp"
-                        android:gravity="center_vertical">
-
-                        <!-- ONLY ONE SHIELD -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="🛡"
-                            android:textSize="22sp"
-                            android:layout_marginEnd="6dp"/>
-
-                        <TextView
-                            android:id="@+id/resultText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Protection Active"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
-                            android:textColor="#1B5E20"/>
-
-                        <!-- RIGHT SHIELD -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="🛡"
-                            android:textSize="22sp"
-                            android:layout_marginStart="6dp"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- MODE CARD -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="6dp"
-                android:backgroundTint="#424242"
-                android:layout_marginBottom="18dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="20dp"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Detection Mode"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="#FFFFFF"/>
-
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/modeSwitch"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                    </LinearLayout>
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/modeLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Demo Mode"
-                        android:textColor="#DDDDDD"
-                        android:textSize="14sp"
-                        android:layout_marginTop="6dp"/>
+                        android:text="Real-time scanning active"
+                        android:textColor="#00E5FF"
+                        android:textSize="12sp"/>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/modeSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
 
             <!-- CALL HISTORY -->
-            <com.google.android.material.button.MaterialButton
+            <LinearLayout
                 android:id="@+id/callHistoryBtn"
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
-                android:text="VIEW CALL HISTORY"
-                android:textStyle="bold"
-                android:textColor="#FFFFFF"
+                android:background="@drawable/glass_card"
                 android:layout_marginBottom="14dp"
-                android:backgroundTint="#2F6FB2"
-                app:cornerRadius="30dp"
-                app:icon="@android:drawable/ic_menu_call"
-                app:iconGravity="textStart"
-                app:iconPadding="12dp"
-                app:iconTint="#FFFFFF"/>
+                android:padding="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@android:drawable/ic_menu_call"
+                    app:tint="#00E5FF"
+                    android:contentDescription="Call history"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Call History"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="›"
+                    android:textColor="#9AA4C7"
+                    android:textSize="20sp"/>
+
+            </LinearLayout>
 
             <!-- SMS HISTORY -->
-            <com.google.android.material.button.MaterialButton
+            <LinearLayout
                 android:id="@+id/smsHistoryBtn"
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
-                android:text="VIEW SMS HISTORY"
-                android:textStyle="bold"
-                android:textColor="#FFFFFF"
+                android:background="@drawable/glass_card"
                 android:layout_marginBottom="14dp"
-                android:backgroundTint="#2E7D32"
-                app:cornerRadius="30dp"
-                app:icon="@android:drawable/ic_dialog_email"
-                app:iconGravity="textStart"
-                app:iconPadding="12dp"
-                app:iconTint="#FFFFFF"/>
+                android:padding="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@android:drawable/ic_dialog_email"
+                    app:tint="#00E5FF"
+                    android:contentDescription="SMS history"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="SMS History"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="›"
+                    android:textColor="#9AA4C7"
+                    android:textSize="20sp"/>
+
+            </LinearLayout>
 
             <!-- URL HISTORY -->
-            <com.google.android.material.button.MaterialButton
+            <LinearLayout
                 android:id="@+id/viewUrlHistoryBtn"
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
-                android:text="VIEW URL HISTORY"
-                android:textStyle="bold"
-                android:textColor="#FFFFFF"
-                android:backgroundTint="#EF6C00"
-                app:cornerRadius="30dp"
-                app:icon="@android:drawable/ic_menu_share"
-                app:iconGravity="textStart"
-                app:iconPadding="12dp"
-                app:iconTint="#FFFFFF"/>
+                android:background="@drawable/glass_card"
+                android:padding="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@android:drawable/ic_menu_share"
+                    app:tint="#FFA726"
+                    android:contentDescription="URL history"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="URL History"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="›"
+                    android:textColor="#9AA4C7"
+                    android:textSize="20sp"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
+
 </ScrollView>
+

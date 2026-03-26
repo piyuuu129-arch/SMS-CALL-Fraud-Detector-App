@@ -7,6 +7,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import com.google.android.material.card.MaterialCardView
+
 
 class UrlHistoryActivity : AppCompatActivity() {
 
@@ -41,12 +43,19 @@ class UrlHistoryActivity : AppCompatActivity() {
 
         logs.forEach { entry ->
 
-            val card = CardView(this)
-            card.radius = 30f
-            card.cardElevation = 12f
-            card.setCardBackgroundColor(Color.parseColor("#242424"))
-            card.useCompatPadding = true
-            card.setContentPadding(35, 30, 35, 30)
+            val card = MaterialCardView(this)
+
+
+
+            card.radius = 20f
+            card.cardElevation = 18f
+            card.setCardBackgroundColor(Color.parseColor("#1E1E1E"))
+            card.setContentPadding(20,20,20,20)
+
+            card.strokeWidth = 4
+
+
+
 
             val params = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -65,27 +74,101 @@ class UrlHistoryActivity : AppCompatActivity() {
                 else -> "SAFE"
             }
 
-            val text = TextView(this)
-            text.textSize = 15f
+            // Badge
+            val badge = TextView(this)
+            badge.textSize = 12f
+            badge.setPadding(32,12,32,12)
+            badge.background = getDrawable(R.drawable.badge_background)
 
-            when (label) {
-                "PHISHING" -> {
-                    text.text = "🚨 Phishing URL\n$entry"
-                    text.setTextColor(Color.RED)
+
+
+
+
+            badge.layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+
+
+            // Time / URL header
+            val time = TextView(this)
+            time.textSize = 12f
+            time.setPadding(0,8,0,0)
+            time.setTextColor(Color.parseColor("#9A9A9A"))
+
+
+
+            // URL text
+            val urlText = TextView(this)
+            urlText.textSize = 15f
+            urlText.setPadding(0,12,0,0)
+
+            when(label){
+
+                "PHISHING" ->{
+
+                    badge.text = "🚨 PHISHING URL"
+                    badge.setTextColor(Color.WHITE)
+                    val bg = getDrawable(R.drawable.badge_background)?.mutate()
+                    bg?.setTint(Color.parseColor("#E53935"))
+                    badge.background = bg
+
+
+                    urlText.setTextColor(Color.WHITE)
+
+
+
+                    card.strokeColor = Color.parseColor("#E53935")
+                    card.cardElevation = 18f
+
                 }
 
-                "SPAM" -> {
-                    text.text = "⚠ Spam URL\n$entry"
-                    text.setTextColor(Color.parseColor("#FFA500"))
+                "SPAM" ->{
+
+                    badge.text = "⚠ SPAM URL"
+                    badge.setTextColor(Color.WHITE)
+
+                    val bg = getDrawable(R.drawable.badge_background)?.mutate()
+                    bg?.setTint(Color.parseColor("#FFA000"))
+                    badge.background = bg
+
+                    urlText.setTextColor(Color.WHITE)
+
+                    card.strokeColor = Color.parseColor("#FFA000")
+                    card.cardElevation = 18f
+
                 }
 
-                else -> {
-                    text.text = "✔ Safe URL\n$entry"
-                    text.setTextColor(Color.parseColor("#00FF7F"))
+
+                else ->{
+
+                    badge.text = "✔ SAFE URL"
+                    badge.setTextColor(Color.WHITE)
+
+                    val bg = getDrawable(R.drawable.badge_background)?.mutate()
+                    bg?.setTint(Color.parseColor("#2E7D32"))
+                    badge.background = bg
+
+                    urlText.setTextColor(Color.WHITE)
+
+                    card.strokeColor = Color.parseColor("#2E7D32")
+                    card.cardElevation = 18f
+
                 }
+
             }
 
-            layout.addView(text)
+            time.text = "🌐 " + entry.substringBefore("]") + "]"
+
+
+            urlText.text = entry.substringBefore(" ---").substringAfter("]")
+
+
+
+            layout.addView(badge)
+            layout.addView(time)
+            layout.addView(urlText)
+
             card.addView(layout)
             container.addView(card)
         }

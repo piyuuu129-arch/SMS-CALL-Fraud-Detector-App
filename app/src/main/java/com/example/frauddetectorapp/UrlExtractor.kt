@@ -14,6 +14,7 @@ object UrlExtractor {
 
         val matcher = pattern.matcher(text)
 
+
         while (matcher.find()) {
             urls.add(matcher.group())
         }

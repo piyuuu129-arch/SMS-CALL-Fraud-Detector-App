@@ -5,4 +5,9 @@
         <item name="android:statusBarColor">#000000</item>
     </style>
 
+
+    <style name="Theme.FraudSplash" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowBackground">#0B1F4B</item>
+    </style>
+
 </resources>

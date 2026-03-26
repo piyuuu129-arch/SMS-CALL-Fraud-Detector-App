@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    app:cardCornerRadius="26dp"
+    app:cardElevation="0dp">
+
+    <LinearLayout
+        android:id="@+id/cardGlow"
+        android:orientation="vertical"
+        android:padding="18dp"
+        android:background="#242424"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Badge -->
+        <TextView
+            android:id="@+id/statusBadge"
+            android:text="SAFE URL"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_marginBottom="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/dateText"
+            android:textColor="#9A9A9A"
+            android:textSize="12sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/urlText"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:layout_marginTop="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

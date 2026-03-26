@@ -26,11 +26,13 @@ object NotificationHelper {
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
             .setContentTitle(title)
-            .setContentText(message)
-            .setSmallIcon(android.R.drawable.stat_notify_error)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setContentText(message)   // required for collapsed view
+            .setStyle(NotificationCompat.BigTextStyle().bigText(message)) // expanded view
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setPriority(NotificationCompat.PRIORITY_MAX)
+            .setAutoCancel(true)
             .build()
 
-        manager.notify(System.currentTimeMillis().toInt(), notification)
+        manager.notify(1001, notification)
     }
 }

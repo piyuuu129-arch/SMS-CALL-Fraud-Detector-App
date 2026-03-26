@@ -1,20 +1,25 @@
 package com.example.frauddetectorapp
 
+import com.example.frauddetectorapp.ui.FraudHomeScreen
+
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.widget.Button
+import android.util.Log
+import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.frauddetectorapp.GlowView
+import android.view.View
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
 
-    private lateinit var resultText: TextView
     private lateinit var modeLabel: TextView
 
     companion object {
@@ -23,56 +28,88 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        // Load ONNX safely
-        try { OnnxModelManager.init(this) } catch (_: Exception) {}
+        // ✅ Compose UI
+        setContent {
+            FraudHomeScreen()
+        }
 
+        val detector = FraudDetector(this)
+        val result = detector.analyze("Your SBI account will be blocked verify now")
+        Log.d("FraudTest", "Prediction: $result")
+        Log.e("APP_FLOW", "MainActivity Started")
+
+        // ✅ Initialize ONNX model safely
+        try {
+            OnnxModelManager.init(this)
+            ModelManager.getInterpreter(this)
+            Log.e("ML_INIT", "ONNX Initialized")
+        } catch (e: Exception) {
+            Log.e("ML_INIT_ERROR", e.message ?: "Unknown error")
+        }
+
+        // ✅ Request runtime permissions
         requestAllPermissions()
 
-        resultText = findViewById(R.id.resultText)
-        modeLabel = findViewById(R.id.modeLabel)
+        // ===========================
+        // ⚠ FIX: SAFE VIEW HANDLING
+        // ===========================
+
+        val callBtn = findViewById<LinearLayout?>(R.id.viewCallBtn)
+        val smsBtn = findViewById<LinearLayout?>(R.id.viewSmsBtn)
+
+        callBtn?.setOnClickListener {
+            startActivity(Intent(this, CallStatsActivity::class.java))
+        }
+
+        smsBtn?.setOnClickListener {
+            startActivity(Intent(this, SmsStatsActivity::class.java))
+        }
+
+        val glow = findViewById<GlowView?>(R.id.glowView)
+        glow?.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
+
+        modeLabel = findViewById<TextView?>(R.id.modeLabel) ?: TextView(this)
 
         val prefs = getSharedPreferences("settings", MODE_PRIVATE)
         demoMode = prefs.getBoolean("demoMode", true)
 
-        val modeSwitch = findViewById<SwitchCompat>(R.id.modeSwitch)
-        modeSwitch.isChecked = demoMode
+        val modeSwitch = findViewById<SwitchCompat?>(R.id.modeSwitch)
+        modeSwitch?.isChecked = demoMode
 
-        // 🔥 SET TEXT AT START
         updateModeText()
 
-        // 🔥 WHEN SWITCH TOGGLED
-        modeSwitch.setOnCheckedChangeListener { _, isChecked ->
+        modeSwitch?.setOnCheckedChangeListener { _, isChecked ->
             demoMode = isChecked
             prefs.edit().putBoolean("demoMode", demoMode).apply()
             updateModeText()
         }
 
-        findViewById<Button>(R.id.callHistoryBtn).setOnClickListener {
+        findViewById<LinearLayout?>(R.id.callHistoryBtn)?.setOnClickListener {
             startActivity(Intent(this, CallHistoryActivity::class.java))
         }
 
-        findViewById<Button>(R.id.smsHistoryBtn).setOnClickListener {
+        findViewById<LinearLayout?>(R.id.smsHistoryBtn)?.setOnClickListener {
             startActivity(Intent(this, SmsHistoryActivity::class.java))
         }
 
-        findViewById<Button>(R.id.viewUrlHistoryBtn).setOnClickListener {
+        findViewById<LinearLayout?>(R.id.viewUrlHistoryBtn)?.setOnClickListener {
             startActivity(Intent(this, UrlHistoryActivity::class.java))
         }
     }
 
     private fun updateModeText() {
-        if (demoMode) {
-            modeLabel.text = "Demo Mode"
-            resultText.text = " Protection Active"
-        } else {
-            modeLabel.text = "Normal Mode"
-            resultText.text = " Protection Active"
+        if (::modeLabel.isInitialized) {
+            modeLabel.text = if (demoMode) "Demo Mode" else "Normal Mode"
         }
     }
 
+    // =========================================================
+    // 🔥 Runtime Permission Handling
+    // =========================================================
+
     private fun requestAllPermissions() {
+
         val permissions = mutableListOf(
             Manifest.permission.RECEIVE_SMS,
             Manifest.permission.READ_SMS,
@@ -85,12 +122,40 @@ class MainActivity : AppCompatActivity() {
             permissions.add(Manifest.permission.POST_NOTIFICATIONS)
         }
 
-        val needed = permissions.filter {
-            ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
+        val neededPermissions = permissions.filter { permission ->
+            ContextCompat.checkSelfPermission(
+                this,
+                permission
+            ) != PackageManager.PERMISSION_GRANTED
         }
 
-        if (needed.isNotEmpty()) {
-            ActivityCompat.requestPermissions(this, needed.toTypedArray(), 111)
+        if (neededPermissions.isNotEmpty()) {
+            Log.e("PERMISSION", "Requesting permissions")
+            ActivityCompat.requestPermissions(
+                this,
+                neededPermissions.toTypedArray(),
+                111
+            )
+        } else {
+            Log.e("PERMISSION", "All permissions already granted")
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == 111) {
+            permissions.forEachIndexed { index, permission ->
+                if (grantResults[index] == PackageManager.PERMISSION_GRANTED) {
+                    Log.e("PERMISSION_GRANTED", permission)
+                } else {
+                    Log.e("PERMISSION_DENIED", permission)
+                }
+            }
         }
     }
 }
