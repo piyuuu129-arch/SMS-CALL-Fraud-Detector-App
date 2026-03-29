@@ -1,7 +1,6 @@
 package com.example.frauddetectorapp
 
 import com.example.frauddetectorapp.ui.FraudHomeScreen
-
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -13,10 +12,13 @@ import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.frauddetectorapp.GlowView
 import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+
+import androidx.compose.runtime.*
+import com.example.frauddetectorapp.ui.*
+import com.example.frauddetectorapp.ui.Screen
 
 class MainActivity : ComponentActivity() {
 
@@ -31,7 +33,59 @@ class MainActivity : ComponentActivity() {
 
         // ✅ Compose UI
         setContent {
-            FraudHomeScreen()
+
+            var currentScreen by remember { mutableStateOf<Screen>(Screen.Home) }
+
+            when (currentScreen) {
+
+                is Screen.Home -> {
+                    FraudHomeScreen()
+                }
+
+                is Screen.Dashboard -> {
+                    DashboardScreen(
+                        onHistoryClick = {
+                            currentScreen = Screen.History
+                        },
+                        onSmsClick = {
+                            currentScreen = Screen.SmsAnalysis
+                        },
+                        onCallClick = {
+                            currentScreen = Screen.CallAnalysis
+                        },
+                        onHomeClick = {
+                            currentScreen = Screen.Home
+                        }
+                    )
+                }
+
+                is Screen.History -> {
+                    HistoryScreen(
+                        onBack = {
+                            currentScreen = Screen.Dashboard
+                        },
+                        onCallHistoryClick = { },
+                        onSmsHistoryClick = { },
+                        onUrlHistoryClick = { }
+                    )
+                }
+
+                is Screen.SmsAnalysis -> {
+                    SmsAnalysisScreen(
+                        onBack = {
+                            currentScreen = Screen.Dashboard
+                        }
+                    )
+                }
+
+                is Screen.CallAnalysis -> {
+                    CallAnalysisScreen(
+                        onBack = {
+                            currentScreen = Screen.Dashboard
+                        }
+                    )
+                }
+                else -> {} }
         }
 
         val detector = FraudDetector(this)
@@ -48,6 +102,7 @@ class MainActivity : ComponentActivity() {
             Log.e("ML_INIT_ERROR", e.message ?: "Unknown error")
         }
 
+
         // ✅ Request runtime permissions
         requestAllPermissions()
 
@@ -55,16 +110,7 @@ class MainActivity : ComponentActivity() {
         // ⚠ FIX: SAFE VIEW HANDLING
         // ===========================
 
-        val callBtn = findViewById<LinearLayout?>(R.id.viewCallBtn)
-        val smsBtn = findViewById<LinearLayout?>(R.id.viewSmsBtn)
 
-        callBtn?.setOnClickListener {
-            startActivity(Intent(this, CallStatsActivity::class.java))
-        }
-
-        smsBtn?.setOnClickListener {
-            startActivity(Intent(this, SmsStatsActivity::class.java))
-        }
 
         val glow = findViewById<GlowView?>(R.id.glowView)
         glow?.setLayerType(View.LAYER_TYPE_SOFTWARE, null)

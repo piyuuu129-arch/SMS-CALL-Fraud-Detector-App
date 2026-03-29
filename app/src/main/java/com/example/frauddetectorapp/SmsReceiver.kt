@@ -73,7 +73,7 @@ class SmsReceiver : BroadcastReceiver() {
                 context,
                 "$sender || $message --- SAFE --- CONF:100 --- TONE:NORMAL --- KEYWORDS:None --- TRAI:0 --- VERIFIED:true"
             )
-
+            Log.d("SMS_SAVE", "✅ SAVED SAFE SMS")
             return
         }
 
@@ -108,7 +108,7 @@ class SmsReceiver : BroadcastReceiver() {
                 context,
                 "$sender || $message --- INVESTMENT SCAM --- CONF:95 --- TONE:WARNING --- KEYWORDS:investment --- TRAI:90 --- VERIFIED:false"
             )
-
+            Log.d("SMS_SAVE", "✅ SAVED SCAM SMS")
             return
         }
 
@@ -142,7 +142,7 @@ class SmsReceiver : BroadcastReceiver() {
                 context,
                 "$sender || $message --- PHISHING --- CONF:98 --- TONE:URGENT --- KEYWORDS:phishing --- TRAI:95 --- VERIFIED:false"
             )
-
+            Log.d("SMS_SAVE", "✅ SAVED PHISHING SMS")
             return
         }
 

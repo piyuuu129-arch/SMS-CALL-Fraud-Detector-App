@@ -1,3 +1,7 @@
+package com.example.frauddetectorapp
+
+import SmsItem
+
 object SmsRepository {
 
     val smsList = mutableListOf<SmsItem>()
